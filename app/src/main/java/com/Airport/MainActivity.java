@@ -21,9 +21,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import Adapter.Baggage;
-import Adapter.Cargo;
 import Adapter.Flight;
+import Adapter.Weight;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -84,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         for(int i = 0; i < response.length(); i++){
-                            ArrayList<Baggage> baggageList = new ArrayList<>();
-                            ArrayList<Cargo> cargoList = new ArrayList<>();
+                            ArrayList<Weight> baggageList = new ArrayList<>();
+                            ArrayList<Weight> cargoList = new ArrayList<>();
                             try{
                                 JSONObject baggageDetail = response.getJSONObject(i);
                                 int flightID = baggageDetail.getInt("flightId");
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                                     int weight = baggageObject.getInt("weight");
                                     String weightUnit = baggageObject.getString("weightUnit");
                                     int pieces = baggageObject.getInt("pieces");
-                                    baggageList.add(new Baggage(ID, weight, weightUnit, pieces));
+                                    baggageList.add(new Weight(ID, weight, weightUnit, pieces));
                                 }
 
                                 for(int j = 0; j < cargo.length(); j++){
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                                     int weight = cargoObject.getInt("weight");
                                     String weightUnit = cargoObject.getString("weightUnit");
                                     int pieces = cargoObject.getInt("pieces");
-                                    cargoList.add(new Cargo(ID, weight, weightUnit, pieces));
+                                    cargoList.add(new Weight(ID, weight, weightUnit, pieces));
                                 }
 
                                 //connect baggage and cargo list to correct flight

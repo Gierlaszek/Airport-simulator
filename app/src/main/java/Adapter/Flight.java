@@ -17,8 +17,8 @@ public class Flight implements Parcelable {
     private String arrivalAirportIATACode;
     private String departureDate;
 
-    private ArrayList<Baggage> BaggageList;
-    private ArrayList<Cargo> CargoList;
+    private ArrayList<Weight> BaggageList;
+    private ArrayList<Weight> CargoList;
 
     public Flight(int flightID, int flightNumber, String departureAirportIATACode, String arrivalAirportIATACode, String departureDate){
         this.flightID = flightID;
@@ -35,8 +35,8 @@ public class Flight implements Parcelable {
         departureAirportIATACode = in.readString();
         arrivalAirportIATACode = in.readString();
         departureDate = in.readString();
-        BaggageList = in.createTypedArrayList(Baggage.CREATOR);
-        CargoList = in.createTypedArrayList(Cargo.CREATOR);
+        BaggageList = in.createTypedArrayList(Weight.CREATOR);
+        CargoList = in.createTypedArrayList(Weight.CREATOR);
     }
 
     public static final Creator<Flight> CREATOR = new Creator<Flight>() {
@@ -57,12 +57,12 @@ public class Flight implements Parcelable {
     public String GetDepartureAirportIATACode() { return departureAirportIATACode; }
     public String GetArrivalAirportIATACode() { return arrivalAirportIATACode; }
     public String GetDepartureDate() { return departureDate; }
-    public ArrayList<Baggage> GetBaggageList() { return BaggageList; }
-    public ArrayList<Cargo>  GetCargoList() { return CargoList; }
+    public ArrayList<Weight> GetBaggageList() { return BaggageList; }
+    public ArrayList<Weight>  GetCargoList() { return CargoList; }
 
     //SETTER
-    public void SetBaggageList(ArrayList<Baggage> baggages) { BaggageList = baggages; }
-    public void SetCargoList(ArrayList<Cargo> cargos) { CargoList = cargos; }
+    public void SetBaggageList(ArrayList<Weight> baggages) { BaggageList = baggages; }
+    public void SetCargoList(ArrayList<Weight> cargos) { CargoList = cargos; }
 
 
     //make class parcelable  <- needed to send data to other activity

@@ -3,13 +3,13 @@ package Adapter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Baggage implements Parcelable {
+public class Weight implements Parcelable {
     private int ID;
     private int weight;
     private String weightUnit;
     private int pieces;
 
-    public Baggage(int ID, int weight, String weightUnit, int pieces){
+    public Weight(int ID, int weight, String weightUnit, int pieces){
         this.ID = ID;
         this.weight = weight;
         this.weightUnit = weightUnit;
@@ -37,22 +37,22 @@ public class Baggage implements Parcelable {
     }
 
     //Creator of class baggage
-    protected Baggage(Parcel source){
+    protected Weight(Parcel source){
         ID = source.readInt();
         weight = source.readInt();
         weightUnit = source.readString();
         pieces = source.readInt();
     }
 
-    public static final Creator<Baggage> CREATOR = new Creator<Baggage>() {
+    public static final Creator<Weight> CREATOR = new Creator<Weight>() {
         @Override
-        public Baggage createFromParcel(Parcel source) {
-            return new Baggage(source);
+        public Weight createFromParcel(Parcel source) {
+            return new Weight(source);
         }
 
         @Override
-        public Baggage[] newArray(int size) {
-            return new Baggage[size];
+        public Weight[] newArray(int size) {
+            return new Weight[size];
         }
     };
 
