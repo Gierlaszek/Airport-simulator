@@ -1,49 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".IATA">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="408dp"
-        android:layout_height="21dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="106dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="89dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="144dp"
+        android:layout_weight="1"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.732"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IATASpinner">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
-            android:id="@+id/FLightNumberSpinner"
-            android:layout_width="133dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp" />
+    <Spinner
+        android:id="@+id/RadioButtonSpinner"
+        android:layout_width="28dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="152dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
-            android:id="@+id/IATASpinner"
-            android:layout_width="133dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="23dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/RadioButtonSpinner"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
-            android:id="@+id/DataSpinner"
-            android:layout_width="133dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp" />
-    </LinearLayout>
+    <Spinner
+        android:id="@+id/DateSpinner"
+        android:layout_width="39dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="148dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="411dp"
-        android:layout_height="604dp"
+        android:layout_height="304dp"
+        android:layout_marginTop="170dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <TableRow
             android:layout_width="match_parent"
@@ -157,5 +173,51 @@
                 android:layout_height="wrap_content" />
         </TableRow>
     </TableLayout>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="49dp"
+        android:text="Choose filter:"
+        app:layout_constraintEnd_toStartOf="@+id/radioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/RadioButtonFlightNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="Flight number" />
+
+        <RadioButton
+            android:id="@+id/RadioButtonIATACode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="IATA Airport Code " />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/Filtr"
+        android:layout_width="244dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginBottom="133dp"
+        android:text="Filtr"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

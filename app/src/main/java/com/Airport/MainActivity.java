@@ -140,10 +140,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onclickButton(View view){
-        //TODO przesłać listę do kolejnej strony gdzie zostaną dodane do adaptera
-        // jeśli nie uda się przesłać, to zrobić w stronie IATA odbieranie danych,
-        // następnie jak będzie gotowy adapter, to wyświetlanie danych w tabeli,  i zrobić kliknięcie na wierszu żeby otworzyło się małe nowe okno które bedzie miało infromacje wszystkie
-        // jak się nie uda zrobić kliknięcia to zrobić jakiś mały przycisk w tabeli który pozwoli na kliknięcie
+        //TODO
+        // zrobic aby byly dwa text view dla spinner
         // jak wszystko będzie okej, to zrobić gifa na stronę poczatkową
         // na samym końcu jak zostanie czas to spróbować zrobić samouczek
 
