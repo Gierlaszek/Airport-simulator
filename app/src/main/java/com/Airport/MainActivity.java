@@ -24,12 +24,17 @@ import java.util.ArrayList;
 import Adapter.Flight;
 import Adapter.Weight;
 
+import android.os.Handler;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView res_my_text;
     public ArrayList<Flight> flightList = new ArrayList<Flight>();
     private Button but;
+    private boolean receiveJSON1 = false;
+    private boolean receiveJSON2 = false;
+    final Handler handler = new Handler();
 
 
     @Override
@@ -37,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         res_my_text = findViewById(R.id.textView);
-        but = findViewById(R.id.button);
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url_baggage ="https://www.json-generator.com/api/json/get/cqYnNWHmNu?indent=2";
@@ -62,9 +66,12 @@ public class MainActivity extends AppCompatActivity {
                                 String arrivalAirportIATACode = flightDetail.getString("arrivalAirportIATACode");
                                 String departureDate = flightDetail.getString("departureDate");
                                 flightList.add(new Flight(flightID, flightNumber, departureAirportIATACode, arrivalAirportIATACode, departureDate));
+
+                                receiveJSON1 = true;
                             }
                             catch (JSONException e){
                                 e.printStackTrace();
+                                receiveJSON1 = false;
                             }
                         }
                     }
@@ -88,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                             try{
                                 JSONObject baggageDetail = response.getJSONObject(i);
                                 int flightID = baggageDetail.getInt("flightId");
-
                                 //need to create a baggage and cargo list for each flight ID and then link them to the correct flight
                                 //we get a json Array which consists of 3 things: ID, baggage, cargo
                                 JSONArray baggage = baggageDetail.getJSONArray("baggage");
@@ -120,9 +126,11 @@ public class MainActivity extends AppCompatActivity {
                                         flightList.get(n).SetCargoList(cargoList);
                                     }
                                 }
+                                receiveJSON2 = true;
                             }
                             catch (JSONException e){
                                 e.printStackTrace();
+                                receiveJSON2 = false;
                             }
                         }
                     }
@@ -134,26 +142,39 @@ public class MainActivity extends AppCompatActivity {
                         res_my_text.setText("Something go wrong !!!");
                     }
                 });
+
         queue.add(jsonRequest);
         queue.add(jsonRequest2);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkState();
+            }
+        }, 9000);
+
     }
 
     public void onclickButton(View view){
         //TODO
-        // zrobic aby byly dwa text view dla spinner
-        // jak wszystko będzie okej, to zrobić gifa na stronę poczatkową
         // na samym końcu jak zostanie czas to spróbować zrobić samouczek
 
         //TODO optymalizacja kodu:
         // - zrobić klasę, która będzie miała queue, i bedzie miala metode JSONArrayRequest
         // - i w niej zrobić GETTER flight list, i tutaj na głównym menu odbierać dane i przesyłać do nowej strony / lub odbierać na nowej stronie
 
-        //send array list with flight object to next activity
-        Intent data = new Intent(this, IATA.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("flight list", flightList);
-        data.putExtra("bundle", bundle);
-        startActivity(data);
+
+    }
+
+    private void checkState(){
+        if(receiveJSON1 && receiveJSON2){
+            //send array list with flight object to next activity
+            Intent data = new Intent(this, IATA.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("flight list", flightList);
+            data.putExtra("bundle", bundle);
+            startActivity(data);
+        }
     }
 
 }

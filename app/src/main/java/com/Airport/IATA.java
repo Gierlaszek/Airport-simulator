@@ -3,11 +3,13 @@ package com.Airport;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,12 +23,14 @@ import Adapter.Flight;
 public class IATA extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner DateSpinner;
+    private Button filter;
     private Spinner RadioButtonChooseSpinner;
-    private TextView text0;
-    private TextView text1;
-    private boolean checkSpinner = true;
-    private int choosedRadioButton;
+    private TextView TextForSpinner1;
+    private TextView TextForSpinner2;
+    private boolean checkSpinner = false;
+    private int choosedRadioButton = 0;
     private ArrayList<Flight> flightList = new ArrayList<>();
+
 
     private TextView row0_numLayout;
     private TextView row1_numLayout;
@@ -43,12 +47,15 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_i_a_t);
 
+        filter = findViewById(R.id.Filtr);
+        filter.setBackgroundColor(Color.parseColor("#773731"));
+
         //receiving data from the previous activity
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("bundle");
         flightList = args.getParcelableArrayList("flight list");
-        text0 = findViewById(R.id.textView3);
-        text1 = findViewById(R.id.textView2);
+        TextForSpinner1 = findViewById(R.id.textView2);
+        TextForSpinner2 = findViewById(R.id.textView3);
 
         row0_numLayout = findViewById(R.id.Detail_Cargo_weig);
         row1_numLayout = findViewById(R.id.Detail_Baggage_weig);
@@ -66,7 +73,7 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
         RadioButtonChooseSpinner.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP){
+                if(event.getAction() == MotionEvent.ACTION_UP){     //change textview to output
                     checkSpinner = false;
                     return false;
                 }
@@ -77,7 +84,7 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
         DateSpinner = findViewById(R.id.DateSpinner);
         DateSpinner.setOnTouchListener(new View.OnTouchListener(){
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event) {   //change textview to output
                 if(event.getAction() == MotionEvent.ACTION_UP){
                     checkSpinner = true;
                     return false;
@@ -85,14 +92,6 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
                 return false;
             }
         });
-
-
-        //SPINNER with date
-        ArrayList<String> DateFromJSON = new ArrayList<>();
-        for(int i = 0; i < flightList.size(); i++){
-            DateFromJSON.add(flightList.get(i).GetDepartureDate());
-        }
-        SetAdapter(DateSpinner, DateFromJSON);
     }
 
     //radio button operation
@@ -103,7 +102,7 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
             case R.id.RadioButtonFlightNumber:
                 if(checked){
                     SetFlightNumberSpinner();
-                    choosedRadioButton = 0;
+                    choosedRadioButton = 1;
                     findViewById(R.id.tableLayoutNumber).setVisibility(view.VISIBLE);
                     findViewById(R.id.tableLayoutIATA).setVisibility(view.INVISIBLE);
                 }
@@ -111,7 +110,7 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
             case R.id.RadioButtonIATACode:
                 if(checked){
                     SetIATACodeSpinner();
-                    choosedRadioButton = 1;
+                    choosedRadioButton = 2;
                     findViewById(R.id.tableLayoutNumber).setVisibility(view.INVISIBLE);
                     findViewById(R.id.tableLayoutIATA).setVisibility(view.VISIBLE);
                 }
@@ -126,10 +125,50 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
 
         // Showing selected spinner item
         if(checkSpinner){
-            text0.setText(item);
+            TextForSpinner2.setText(item);  //time  -> if select time -> set correct IATA code or flight number
+            for(int i = 0; i < flightList.size(); i++){
+                if(flightList.get(i).GetDepartureDate().equals(item)){
+                    if(choosedRadioButton == 1){
+                        TextForSpinner1.setText(String.valueOf(flightList.get(i).GetFlightNumber()));
+                    }
+                    else if(choosedRadioButton == 2){
+                        TextForSpinner1.setText(String.valueOf(flightList.get(i).GetDepartureAirportIATACode()));
+                    }
+                }
+            }
+            checkSpinner = false;
         }
         else {
-            text1.setText(item);
+            ArrayList<String> DateFromJSON = new ArrayList<>();
+            TextForSpinner1.setText(item);//IATA code or flight number
+
+            if(item.equals("NONE")){
+                //SPINNER with date
+                DateFromJSON.add("Choose date");
+                for(int i = 0; i < flightList.size(); i++){
+                    DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                }
+                SetAdapter(DateSpinner, DateFromJSON);
+            }
+            else{
+                //TODO
+                // zrobic funkcje set date adapter ktora przyjmie parametr item, i po kazdej zmianie daty ustawiac nowy adapter, zeby aktualizwoaly sie IATA CODE
+                //Data spinner has data associated with a specific Flight number or IATA code
+                for(int i = 0; i < flightList.size(); i++){
+                    if(flightList.get(i).GetDepartureAirportIATACode().equals(item)){
+                        DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                    }
+                    else if(flightList.get(i).GetArrivalAirportIATACode().equals(item)) {
+                        DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                    }
+
+                    if(String.valueOf(flightList.get(i).GetFlightNumber()).equals(item)){
+                        DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                    }
+                }
+                SetAdapter(DateSpinner, DateFromJSON);
+            }
+            checkSpinner = true;
         }
     }
     public void onNothingSelected(AdapterView<?> arg0) {
@@ -147,33 +186,35 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
     //SPINNER with flight number
     public void SetFlightNumberSpinner(){
         ArrayList<String> FlightNumberFromJSON = new ArrayList<>();
-//        FlightNumSpinner = findViewById(R.id.RadioButtonSpinner);
+        FlightNumberFromJSON.add("NONE");
         for(int i = 0; i < flightList.size(); i++){
             FlightNumberFromJSON.add(String.valueOf(flightList.get(i).GetFlightNumber()));
         }
+        RadioButtonChooseSpinner.setPopupBackgroundResource(R.drawable.flightnumback);
         SetAdapter(RadioButtonChooseSpinner, FlightNumberFromJSON);
     }
 
     //SPINNER with IATA code
     public void SetIATACodeSpinner(){
-        ArrayList<String> IATACodeFromJSON = new ArrayList<>();
-//        IATASpinner = findViewById(R.id.RadioButtonSpinner);
+        ArrayList<String> AllIATACodeFromJSON = new ArrayList<>();
+        AllIATACodeFromJSON.add("NONE");
         for(int i = 0; i < flightList.size(); i++){
-            IATACodeFromJSON.add(flightList.get(i).GetDepartureAirportIATACode());
-        }
-        for(int i = 0; i < flightList.size(); i++){
-            if(!IATACodeFromJSON.contains(flightList.get(i).GetArrivalAirportIATACode())){
-                IATACodeFromJSON.add(flightList.get(i).GetArrivalAirportIATACode());
+            if(!AllIATACodeFromJSON.contains(flightList.get(i).GetDepartureAirportIATACode())){
+                AllIATACodeFromJSON.add(flightList.get(i).GetDepartureAirportIATACode());
+            }
+            if(!AllIATACodeFromJSON.contains(flightList.get(i).GetArrivalAirportIATACode())){
+                AllIATACodeFromJSON.add(flightList.get(i).GetArrivalAirportIATACode());
             }
         }
-        SetAdapter(RadioButtonChooseSpinner, IATACodeFromJSON);
+        RadioButtonChooseSpinner.setPopupBackgroundResource(R.drawable.iatabackl);
+        SetAdapter(RadioButtonChooseSpinner, AllIATACodeFromJSON);
     }
 
 
-    //TODO zrobić zeby po kliknieciu pojawila sie tabela dopiero
+    //after press button show correct table layout
     public void onClickButton(View view){
-        String textFromSpinner = text1.getText().toString();
-        if(choosedRadioButton == 0){ //flight number is choosed
+        String textFromSpinner = TextForSpinner1.getText().toString();
+        if(choosedRadioButton == 1){ //flight number is choosed
             for(int i = 0; i < flightList.size(); i++){
                 if(String.valueOf(flightList.get(i).GetFlightNumber()).equals(textFromSpinner)){
                     int CargoWeight = calculateWeight(flightList.get(i).GetCargoList());
@@ -185,7 +226,7 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
                 }
             }
         }
-        else{ //IATA code is choosed
+        else if(choosedRadioButton == 2){ //IATA code is choosed
             int numOfDepartureFlight = 0;
             int numOfArrivalFlight = 0;
             int numOfArrivalPieces = 0;
