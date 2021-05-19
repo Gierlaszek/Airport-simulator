@@ -140,49 +140,64 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
             //date spinner
             //------------
             TextForSpinner2.setText(item);  //time  -> if select time -> set correct IATA code or flight number
-            for(int i = 0; i < flightList.size(); i++){
-                if(flightList.get(i).GetDepartureDate().equals(item)){
-                    if(choosedRadioButton == 1){
-                        TextForSpinner1.setText(String.valueOf(flightList.get(i).GetFlightNumber()));
-                    }
-                    else if(choosedRadioButton == 2){
-                        if(prevoiusValueIsNONE){
-                            TextForSpinner1.setText(String.valueOf(flightList.get(i).GetDepartureAirportIATACode()));
+            try{
+                for(int i = 0; i < flightList.size(); i++){
+                    if(flightList.get(i).GetDepartureDate().equals(item)){
+                        if(choosedRadioButton == 1){
+                            TextForSpinner1.setText(String.valueOf(flightList.get(i).GetFlightNumber()));
+                        }
+                        else if(choosedRadioButton == 2){
+                            if(prevoiusValueIsNONE){
+                                TextForSpinner1.setText(String.valueOf(flightList.get(i).GetDepartureAirportIATACode()));
+                            }
                         }
                     }
                 }
             }
+            catch (NullPointerException e){
+                System.out.println("The data from the page has not been loaded correctly, try launching the application again");
+            }
             checkSpinner = false;
         }
         else {
-            //--------------------------
-            //IATA code or flight number
-            //--------------------------
+            //----------------------------------
+            //IATA code or flight number spinner
+            //----------------------------------
             ArrayList<String> DateFromJSON = new ArrayList<>();
             TextForSpinner1.setText(item);
             if(item.equals("NONE")){
                 //SPINNER with date
                 prevoiusValueIsNONE = true;
                 DateFromJSON.add("Choose date");
-                for(int i = 0; i < flightList.size(); i++){
-                    DateFromJSON.add(flightList.get(i).GetDepartureDate());
+
+                try{
+                    for(int i = 0; i < flightList.size(); i++) {
+                        DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                    }
+                }
+                catch (NullPointerException e){
+                    System.out.println("The data from the page has not been loaded correctly, try launching the application again");
                 }
                 adapter.SetAdapter(DateSpinner, DateFromJSON);
             }
             else{
                 //Data spinner has data associated with a specific Flight number or IATA code
                 prevoiusValueIsNONE = false;
-                for(int i = 0; i < flightList.size(); i++){
-                    if(flightList.get(i).GetDepartureAirportIATACode().equals(item)){
-                        DateFromJSON.add(flightList.get(i).GetDepartureDate());
-                    }
-                    else if(flightList.get(i).GetArrivalAirportIATACode().equals(item)) {
-                        DateFromJSON.add(flightList.get(i).GetDepartureDate());
-                    }
+                try{
+                    for(int i = 0; i < flightList.size(); i++) {
+                        if (flightList.get(i).GetDepartureAirportIATACode().equals(item)) {
+                            DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                        } else if (flightList.get(i).GetArrivalAirportIATACode().equals(item)) {
+                            DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                        }
 
-                    if(String.valueOf(flightList.get(i).GetFlightNumber()).equals(item)){
-                        DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                        if (String.valueOf(flightList.get(i).GetFlightNumber()).equals(item)) {
+                            DateFromJSON.add(flightList.get(i).GetDepartureDate());
+                        }
                     }
+                }
+                catch (NullPointerException e){
+                    System.out.println("The data from the page has not been loaded correctly, try launching the application again");
                 }
                 adapter.SetAdapter(DateSpinner, DateFromJSON);
             }
@@ -197,15 +212,20 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
     public void onClickButton(View view){
         String textFromSpinner = TextForSpinner1.getText().toString();
         if(choosedRadioButton == 1){ //flight number is choosed
-            for(int i = 0; i < flightList.size(); i++){
-                if(String.valueOf(flightList.get(i).GetFlightNumber()).equals(textFromSpinner)){
-                    int CargoWeight = calculateWeight(flightList.get(i).GetCargoList());
-                    int BaggageWeight = calculateWeight(flightList.get(i).GetBaggageList());
-                    int TotalWeight = BaggageWeight + CargoWeight;
-                    row0_numLayout.setText(String.valueOf(CargoWeight));
-                    row1_numLayout.setText(String.valueOf(BaggageWeight));
-                    row2_numLayout.setText(String.valueOf(TotalWeight));
+            try{
+                for(int i = 0; i < flightList.size(); i++){
+                    if(String.valueOf(flightList.get(i).GetFlightNumber()).equals(textFromSpinner)){
+                        int CargoWeight = calculateWeight(flightList.get(i).GetCargoList());
+                        int BaggageWeight = calculateWeight(flightList.get(i).GetBaggageList());
+                        int TotalWeight = BaggageWeight + CargoWeight;
+                        row0_numLayout.setText(String.valueOf(CargoWeight));
+                        row1_numLayout.setText(String.valueOf(BaggageWeight));
+                        row2_numLayout.setText(String.valueOf(TotalWeight));
+                    }
                 }
+            }
+            catch (NullPointerException e){
+                System.out.println("The data from the page has not been loaded correctly, try launching the application again");
             }
         }
         else if(choosedRadioButton == 2){ //IATA code is choosed
@@ -214,16 +234,21 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
             int numOfArrivalPieces = 0;
             int numOfDeparturePieces = 0;
 
-            for(int i = 0; i < flightList.size(); i++){
-                if(flightList.get(i).GetDepartureAirportIATACode().equals(textFromSpinner)){
-                    numOfDepartureFlight += 1;
-                    numOfDeparturePieces += calculatePieces(flightList.get(i).GetBaggageList());
-                }
+            try{
+                for(int i = 0; i < flightList.size(); i++){
+                    if(flightList.get(i).GetDepartureAirportIATACode().equals(textFromSpinner)){
+                        numOfDepartureFlight += 1;
+                        numOfDeparturePieces += calculatePieces(flightList.get(i).GetBaggageList());
+                    }
 
-                if(flightList.get(i).GetArrivalAirportIATACode().equals(textFromSpinner)){
-                    numOfArrivalFlight += 1;
-                    numOfArrivalPieces += calculatePieces(flightList.get(i).GetBaggageList());
+                    if(flightList.get(i).GetArrivalAirportIATACode().equals(textFromSpinner)){
+                        numOfArrivalFlight += 1;
+                        numOfArrivalPieces += calculatePieces(flightList.get(i).GetBaggageList());
+                    }
                 }
+            }
+            catch (NullPointerException e){
+                System.out.println("The data from the page has not been loaded correctly, try launching the application again");
             }
             row0_IATALayout.setText(String.valueOf(numOfDepartureFlight));
             row1_IATALayout.setText(String.valueOf(numOfArrivalFlight));
