@@ -169,7 +169,6 @@ public class IATA extends AppCompatActivity implements AdapterView.OnItemSelecte
                 //SPINNER with date
                 prevoiusValueIsNONE = true;
                 DateFromJSON.add("Choose date");
-
                 try{
                     for(int i = 0; i < flightList.size(); i++) {
                         DateFromJSON.add(flightList.get(i).GetDepartureDate());
