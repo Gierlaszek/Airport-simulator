@@ -5,7 +5,7 @@ Application showing sample operation with data. The data is downloaded from json
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [User Guide](#user-guide)
-*[Developing the application](#developping-the-application)
+* [Developing the application](#developping-the-application)
 
 ## Technologies 
 The application was created in Android Studio 4.1 by use Java language. Android SDK with Android platform version 30. We use it to compile the app.
@@ -23,19 +23,19 @@ Application in this repository should be automatically importable, compilable, a
 ## User Guide 
 After starting the application, we will see the window below. The next window will appear when the data download from the server is completed.
 
-/Users/kamil/Desktop/Zrzut ekranu 2021-05-19 o 09.21.11.png 
+<img width="200" alt="Zrzut ekranu 2021-05-19 o 09 21 11" src="https://user-images.githubusercontent.com/48731610/118779206-1c517f00-b88b-11eb-9e69-fade9772d024.png">
 
 Next window:
 
-/Users/kamil/Desktop/Zrzut ekranu 2021-05-19 o 09.21.19.png
+<img width="200" alt="Zrzut ekranu 2021-05-19 o 09 21 19" src="https://user-images.githubusercontent.com/48731610/118779231-22dff680-b88b-11eb-9ac3-254e5cdf0617.png">
 
 The user has to select the type of data of interest to him. They then choose to filter between an IATA airport code or flight number. He can also choose a date. The appropriate flight number or  IATA airport code will be automatically matched to the selected date.
 
-An example of the result of filtering the results:
+An example of filtering the results:
 
-/Users/kamil/Desktop/Zrzut ekranu 2021-05-19 o 09.21.49.png
+<img width="200" alt="Zrzut ekranu 2021-05-19 o 09 21 49" src="https://user-images.githubusercontent.com/48731610/118779263-296e6e00-b88b-11eb-9e0c-f22d2bdcd52b.png">
 
-/Users/kamil/Desktop/Zrzut ekranu 2021-05-19 o 09.22.05.png
+<img width="200" alt="Zrzut ekranu 2021-05-19 o 09 22 05" src="https://user-images.githubusercontent.com/48731610/118779289-30957c00-b88b-11eb-8df7-e331e52952f2.png">
 
 ## Developing the application
 
