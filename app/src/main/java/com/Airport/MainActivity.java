@@ -44,12 +44,19 @@ public class MainActivity extends AppCompatActivity {
         res_my_text = findViewById(R.id.textView);
 
         RequestQueue queue = Volley.newRequestQueue(this);
+
+        //------------------------------------------------------------------------------------
+        //if new data is generated on the json-generator page, the URL should be changed
         String url_baggage ="https://www.json-generator.com/api/json/get/cqYnNWHmNu?indent=2";
         String url_flight = "https://www.json-generator.com/api/json/get/bUlKDRPnci?indent=2";
+        //------------------------------------------------------------------------------------
 
-        //TODO w trakcie pobierania wyswietla sie gif, jak sie skonczy to wtedy przechodzi dalej
 
-        // Request a json response from the provided URL
+        //TODO
+        // jesli zostanie czas to stworzyć klasę Request i w niej umieścić metody getResponseForFlight i getResponseForWeigth
+        // obie klasy będą zwracać flightList
+
+        //Request a json response from the provided URL
         JsonArrayRequest jsonRequest = new JsonArrayRequest
                 (Request.Method.GET, url_flight, null, new Response.Listener<JSONArray>() {
 
@@ -146,23 +153,13 @@ public class MainActivity extends AppCompatActivity {
         queue.add(jsonRequest);
         queue.add(jsonRequest2);
 
+        //delay needed for all data to be downloaded
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 checkState();
             }
         }, 9000);
-
-    }
-
-    public void onclickButton(View view){
-        //TODO
-        // na samym końcu jak zostanie czas to spróbować zrobić samouczek
-
-        //TODO optymalizacja kodu:
-        // - zrobić klasę, która będzie miała queue, i bedzie miala metode JSONArrayRequest
-        // - i w niej zrobić GETTER flight list, i tutaj na głównym menu odbierać dane i przesyłać do nowej strony / lub odbierać na nowej stronie
-
 
     }
 
