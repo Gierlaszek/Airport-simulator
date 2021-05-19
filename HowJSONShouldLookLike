@@ -1,0 +1,42 @@
+To generate JSON on page json-generator:
+
+Flight number:
+
+[
+'{{repeat(5)}}', 
+  {
+	flightId: '{{index()}}',
+	flightNumber: '{{integer(1000, 9999)}}',
+	departureAirportIATACode: '{{random("SEA","YYZ","YYT","ANC","LAX")}}', 		arrivalAirportIATACode: '{{random("MIT","LEW","GDN","KRK","PPX")}}', 			departureDate: '{{date(new Date(2014, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ssZ")}}'
+  }
+]
+
+
+Detail flight:
+
+[
+	'{{repeat(5)}}', 
+  {
+	flightId: '{{index()}}',
+    baggage: 
+    [
+      '{{repeat(3,8)}}', 
+      {
+      id: '{{index()}}',
+      weight: '{{integer(1, 999)}}', 
+        weightUnit: '{{random("kg","lb")}}', 
+        pieces: 	'{{integer(1, 999)}}'
+      } 
+    ],
+	cargo: [ '{{repeat(3,5)}}',
+        {
+              id: '{{index()}}',
+              weight: '{{integer(1, 999)}}',
+              weightUnit: '{{random("kg","lb")}}',
+              pieces: 	'{{integer(1, 999)}}'
+		} 
+	]
+	} 
+]
+
+
