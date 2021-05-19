@@ -17,8 +17,10 @@ Application in this repository should be automatically importable, compilable, a
 3. Either press "Open an Existing Android Studio Project" or click File > Open...
 4. Navigate to folder. Press Choose, or OK
 5. Wait for the Gradle execution to complete. You should see "app" appear as one of the build configurations
-6. Run the application (Run > Run 'App'), choose either a connected device or a simulator to run on
-7. When the application loads, you will see the initial window. 
+6. Generate a new URL with a JSON file from the json-generator site. The file skeleton is given in the HowJSONShouldLookLike.
+7. In the MainActivity file, the URL should be pasted in the designated place.
+8. Run the application (Run > Run 'App'), choose either a connected device or a simulator to run on
+9. When the application loads, you will see the initial window. 
 
 ## User Guide 
 After starting the application, we will see the window below. The next window will appear when the data download from the server is completed.
