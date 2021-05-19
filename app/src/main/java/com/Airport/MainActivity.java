@@ -45,13 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
+        
+        //-------------------------------- PASTE URL HERE ------------------------------------
         //------------------------------------------------------------------------------------
         //if new data is generated on the json-generator page, the URL should be changed
         String url_baggage ="https://www.json-generator.com/api/json/get/cqYnNWHmNu?indent=2";
         String url_flight = "https://www.json-generator.com/api/json/get/bUlKDRPnci?indent=2";
         //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------
 
-
+        
         //TODO
         // jesli zostanie czas to stworzyć klasę Request i w niej umieścić metody getResponseForFlight i getResponseForWeigth
         // obie klasy będą zwracać flightList
